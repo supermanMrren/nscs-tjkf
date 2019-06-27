@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.nscs.mapper.sys.ISysMapper">
+	<insert id="insertWsCallLog" parameterType="com.boco.nscs.entity.sys.WsCallLog">
+		insert into TB_NC_ONLINE_LOG(
+		IFNAME,IFMETHOD,CALL_STAFFID,CALL_TIME,INCOM_NUM,CUSTOMER_NUM,
+		LONGITUDE,LATITUDE,CALL_RESULT,FAIL_REASON,IS_GET_DATA,FINISH_TIME
+		) values(
+		#{ifName},
+		#{method},
+		<choose>
+			<when test="callStaffId!=null and callStaffId!=''">
+				#{callStaffId},
+			</when>
+			<otherwise>
+				'',
+			</otherwise>
+		</choose>
+		#{startTime},
+		<choose>
+			<when test="callNo!=null and callNo!=''">
+				#{callNo},
+			</when>
+			<otherwise>
+				'',
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="customerNum!=null and customerNum!=''">
+				#{customerNum},
+			</when>
+			<otherwise>
+				'',
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="longitude!=null and longitude!=''">
+				#{longitude},
+			</when>
+			<otherwise>
+				'',
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="latitude!=null and latitude!=''">
+				#{latitude},
+			</when>
+			<otherwise>
+				'',
+			</otherwise>
+		</choose>
+		#{resultCode},
+		#{resultMsg},
+		#{isGetData},
+		#{finishTime}
+		)
+	</insert>
+
+</mapper>

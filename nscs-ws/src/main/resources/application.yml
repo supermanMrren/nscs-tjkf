@@ -1,0 +1,81 @@
+
+###################  spring配置  ###################
+spring:
+  profiles:
+    #设置运行环境 dev:开发 prod 生产
+    active: dev
+  http:
+    encoding:
+      force: true
+      charset: utf-8
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  application:
+    name: nscs-ws
+  cache:
+    type: caffeine
+    cache-names: cutcover,user,alarm,netCover
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=30s
+  datasource:
+    sys:
+      username: tjnscs
+      password: TJNSCS
+      url: jdbc:oracle:thin:@192.168.10.36:1521:nscs
+      jdbc-url: ${spring.datasource.sys.url}
+      driver-class-name: oracle.jdbc.driver.OracleDriver #com.mysql.cj.jdbc.Driver  # com.mysql.jdbc.Driver
+      hikari:
+        connection-test-query: select 1 from dual
+    #sms:
+      #username: informix
+      #password: ifx@1234
+      #url: jdbc:informix-sqli://192.168.10.36:8022/jx_smscdb:informixserver=nscserver;DB_LOCALE=en_us.819;CLIENT_LOCALE=en_us.57372;NEWCODESET=GBK,8859-1,819;IFX_USE_STRENC=true
+      #jdbc-url: ${spring.datasource.sms.url}
+      #driver-class-name: com.informix.jdbc.IfxDriver
+      #connection-test-query: select first 1 1 from systables
+  devtools:
+    restart:
+      enabled: true  #是否开启开发者工具（true/false）
+      additional-paths: src/main/java
+
+
+###################  系统配置  ###################
+app:
+  name: 客服支撑对在线客服Webservice接口
+  isDebug: true
+  version: 0.0.1
+  page-type: biz
+  cache-enable: true
+  province: 天津
+  province-code: 1059902420
+
+#mybatis简单配置 单数据源时可用
+#mybatis:
+#  mapper-locations: classpath:/sqlmaps/*/*.xml
+#  type-aliases-package: com.boco.nscs.entity
+#  sqllog-interceptor-on: true   #启用动态拼接sql拦截器
+#  configLocation: classpath:mybatis.xml
+
+#pagehelper:
+#  support-methods-arguments: true
+#  params: pageNum=pageIndex;pageSize=pageSize;
+  # 配置列
+#  countColumn: '*'
+
+server:
+  port: 8091
+  #port: 6000
+
+#天津检索平台
+#本地
+#tjUrl: http://192.168.10.40:8700/ClientController
+#现场
+tjUrl: http://10.228.245.62:8606/ClientController
+tjTableName: GOOGLEMAPS_TJ
+#经纬度检索范围（单位KM千米）
+distanceKM: 0.5
+#影响范围的地物信息的取值个数
+pageSize: 50
+
+

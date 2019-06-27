@@ -1,0 +1,25 @@
+
+spring:
+  datasource:
+      sys:
+        username: tjnscs
+        password: tjnscs#123
+        url: jdbc:oracle:thin:@10.228.242.33:1521:nscs
+        jdbc-url: ${spring.datasource.sys.url}
+        driver-class-name: oracle.jdbc.driver.OracleDriver #com.mysql.cj.jdbc.Driver  # com.mysql.jdbc.Driver
+        hikari:
+          connection-test-query: select 1 from dual
+          #maximum-pool-size: 10
+      #sms:
+        #username: informix
+        #password: ifx@1234
+        #url: jdbc:informix-sqli://192.168.10.36:8022/jx_smscdb:informixserver=nscserver;DB_LOCALE=en_us.819;CLIENT_LOCALE=en_us.57372;NEWCODESET=GBK,8859-1,819;IFX_USE_STRENC=true
+        #jdbc-url: ${spring.datasource.sms.url}
+        #driver-class-name: com.informix.jdbc.IfxDriver
+        #connection-test-query: select first 1 1 from systables
+  devtools:
+    restart:
+      enabled: false
+
+app:
+  name: 客服支撑系统-正式

@@ -1,0 +1,49 @@
+
+###################  spring配置  ###################
+spring:
+  profiles:
+    #设置运行环境 dev:开发 prod 生产
+    active: dev
+  http:
+    encoding:
+      force: true
+      charset: utf-8
+  application:
+    name: nscs-core
+
+  devtools:
+    restart:
+      enabled: true  #是否开启开发者工具（true/false）
+      additional-paths: src/main/java
+  cache:
+    #缓存类型
+    type: simple
+
+###################  系统配置  ###################
+app:
+  name: 客服支撑系统
+  defaultPassword: nc@123
+  swagger-open: true #是否开启swagger (true/false)
+  parent-cityId: -1483444163
+  dynmic-datasource-open: false #是否开启多数据源(true/false)
+  isDebug: false
+  version: 0.0.1
+  redisPreKey: NS
+  page-type: datatables #分页数据格式类型 easyui、datatables、Biz
+
+restapi:
+  version: 1
+  baseurl : /api  #/api/v${rest.api.version}
+jwt:
+  #过期时间 单位秒
+  expiration: 3600
+
+pagehelper:
+  support-methods-arguments: true
+  params: pageNum=pageIndex;pageSize=pageSize;
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        http-only: true

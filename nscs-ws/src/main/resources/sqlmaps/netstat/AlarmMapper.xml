@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.nscs.mapper.netstat.IAlarmMapper">
+	<resultMap type="com.boco.nscs.entity.netstat.TfaAlarmInfo" id="TfaAlarmMap">
+		<result property="province" column="province"/>
+		<result property="city" column="city"/>
+		<result property="county" column="county"/>
+		<result property="faultId" column="faultId"/>
+		<result property="influence" column="incidence"/>
+		<result property="affectBusiness" column="affectBusiness"/>
+		<result property="interpretCaliber" column="advise"/>
+		<result property="status" column="status"/>
+		<result property="startDate" column="starttime"/>
+		<result property="endDate" column="endDate"/>
+	</resultMap>
+
+	<select id="queryFaultNoticeList"  parameterType="map"  resultMap="TfaAlarmMap" >
+		select a.nid as faultId,a.incidence,a.county,
+		decode(a.netmode,'2G','2G语音和2G手机上网','4G','4G手机上网','2G/4G','语音和手机上网','LTE','语音和2G手机上网','2G/LTE','语音和手机上网','其他') as affectBusiness,
+		a.advise,decode(a.State,'2',2,'3',1) as status,a.starttime,
+		decode(a.Actualendtime,null,a.endtime,'',a.endtime,a.Actualendtime) as endDate
+		from tb_nc_notice_n a
+		where (a.state = '2' or a.state = '3')
+		<if test="county != null or county != ''">
+			and   (a.county like '%' || #{county}  || '%' or
+			(select C_CITYNAME from taw_nscs_common_city b where b.C_ID=a.county) like '%'|| #{county} || '%')
+		</if>
+		<if test="influence != null or influence != ''">
+			and (a.title like '%' || #{influence} || '%'or a.content like '%' || #{influence} || '%'
+			or a.landmark like '%' || #{influence} || '%' or a.incidence  like '%' || #{influence} || '%')
+		</if>
+		and to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss') >= a.starttime
+		and decode(a.Actualendtime,null,a.endtime,'',a.endtime,a.Actualendtime) >= to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss')
+	</select>
+
+	<select id="queryAtmoNoticeList"  parameterType="map"  resultMap="TfaAlarmMap" >
+		select id as faultId,incidence,
+		starttime,advise,
+		decode(endtime,null,Actualendtime,'',Actualendtime,endtime) as endDate
+		from tb_nc_AtmosphericNotice
+		where 1=1
+		<if test="influence != null or influence != ''">
+			and (title like '%' || #{influence} || '%'or content like '%' || #{influence} || '%'
+			or incidence  like '%' || #{influence} || '%')
+		</if>
+		and to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss') >= starttime
+		and decode(endtime,null,Actualendtime,'',Actualendtime,endtime) >= to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss')
+	</select>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.nscs.mapper.sys.IUserMapper">
+	<resultMap type="com.boco.nscs.entity.sys.UserInfo" id="UserMap">
+		<result property="id" column="id"/>
+		<result property="userId" column="USERID"/>
+		<result property="userName" column="FULLNAME"/>
+		<result property="sex" column="sex"/>
+		<result property="mail" column="mail"/>
+		<result property="phone" column="phone"/>
+		<result property="state" column="state"/>
+		<result property="deptId" column="DEPTID"/>
+		<result property="cityId" column="CITYID"/>
+		<result property="lastLoginTime" column="LASTLOGINTIME"/>
+		<result property="remarks" column="remarks"/>
+	</resultMap>
+
+    <sql id="selectCols" >
+        select
+		 id , USERID , FULLNAME , sex , mail , phone ,
+		 state , DEPTID , CITYID ,LASTLOGINTIME ,remarks
+    </sql>
+      <select id="queryList"  parameterType="map"  resultMap="UserMap" >
+          <include refid="selectCols"/>
+          from TB_SYS_USER
+          where USERID !='admin'
+          <if test="userId != null  and userId!=''">
+		 	    and USERID like '%' || #{userId} ||'%'
+          </if>
+		  <if test="deptId != null  and deptId!=''">
+			  and DEPTID = #{deptId}
+		  </if>
+      </select>
+      <select id="queryOne" resultMap="UserMap" parameterType="String">
+          <include refid="selectCols"/>
+        from tb_sys_user
+		where USERID =#{userId}
+	</select>
+</mapper>

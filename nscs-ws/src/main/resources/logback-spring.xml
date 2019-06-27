@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+    <!--固定变量 适用于每次运行记录不同日志-->
+    <timestamp key="bySecond" datePattern="yyyyMMddHHmmss"
+               timeReference="contextBirth"/>
+    <!-- 开启后可以通过jmx动态控制日志级别(springboot Admin的功能) -->
+    <!--<jmxConfigurator/>-->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{reqId}] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 按照每天+大小生成日志文件 -->
+    <appender name="appFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>.${file.separator}logs${file.separator}app-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>30</MaxHistory>
+            <!-- each file should be at most 10MB, but at most 3GB -->
+            <maxFileSize>100MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{reqId}] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 按照每天生成日志文件 -->
+    <!--<appender name="appFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<FileNamePattern>..${file.separator}logs${file.separator}app-%d{yyyy-MM-dd}.log</FileNamePattern>-->
+            <!--<MaxHistory>30</MaxHistory>-->
+        <!--</rollingPolicy>-->
+        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <logger name="com.boco.nscs" level="DEBUG" additivity="false">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="appFileLog" />
+    </logger>
+    <logger name="org.springframework.boot" level="INFO"/>
+    <logger name="org.springframework" level="INFO" />
+    <logger name="org.apache.ibatis" level="INFO" />
+    <logger name="org.mybatis" level="INFO" />
+    <root level="INFO">
+        <appender-ref ref="Console" />
+        <appender-ref ref="appFileLog" />
+    </root>
+</configuration>

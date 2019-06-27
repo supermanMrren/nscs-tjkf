@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.nscs.mapper.netstat.IDotMapper">
+
+	<insert id="insertDotInfo" parameterType="com.boco.nscs.entity.netstat.TransferFaultReq">
+		insert into TB_NC_FAULTLOCATION(
+		username,netmode,num,msisdn,locationtime,bizCntt,dottype,county,faultlocation,longitude,latitude,busiType,busiId,dotSource,updatetime
+    	)VALUES (
+    	#{pubInfo.staffId},
+    	'无法确定',
+    	#{pubInfo.incomNumber},
+		#{servNumber},
+		to_date(#{bizDate},'yyyy-mm-dd hh24:mi:ss'),
+		#{bizCntt},
+		#{transType},
+		#{county},
+		#{influence},
+		#{longitude},
+		#{latitude},
+		#{busiType},
+		#{busiId},
+		'1',
+		sysdate
+    	)
+	</insert>
+
+	<select id="qryWeakcoverById" parameterType="String" resultType="int">
+		select count(*) from tb_nc_weakcover_n where wid = #{id}
+	</select>
+
+	<select id="qryHotWeakcoverById" parameterType="String" resultType="int">
+		select count(*) from tb_nc_weakcover_hp_n where wid = #{id}
+	</select>
+
+	<select id="qryNoticeById" parameterType="String" resultType="int">
+		select count(*) from tb_nc_notice_n where nid = #{id}
+	</select>
+
+	<select id="qryAtoNoticeById" parameterType="String" resultType="int">
+		select count(*) from tb_nc_AtmosphericNotice where id = #{id}
+	</select>
+
+	<select id="qryProStaById" parameterType="String" resultType="int">
+		select count(*) from tb_nc_project_status_tj where id = #{id}
+	</select>
+
+</mapper>

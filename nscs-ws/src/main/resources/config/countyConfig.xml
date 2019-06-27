@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Map>
+    <County countyKey="宝坻" countyValue ="宝坻"/>
+    <County countyKey="宝坻区" countyValue ="宝坻"/>
+    <County countyKey="北辰" countyValue ="北辰"/>
+    <County countyKey="北辰区" countyValue ="北辰"/>
+    <County countyKey="大港" countyValue ="大港"/>
+    <County countyKey="大港区" countyValue ="大港区"/>
+    <County countyKey="东丽" countyValue ="东丽"/>
+    <County countyKey="东丽区" countyValue ="东丽"/>
+    <County countyKey="汉沽" countyValue ="汉沽"/>
+    <County countyKey="汉沽区" countyValue ="汉沽"/>
+    <County countyKey="和平" countyValue ="和平"/>
+    <County countyKey="和平区" countyValue ="和平"/>
+    <County countyKey="河北" countyValue ="河北"/>
+    <County countyKey="河北区" countyValue ="河北"/>
+    <County countyKey="河东" countyValue ="河东"/>
+    <County countyKey="河东区" countyValue ="河东"/>
+    <County countyKey="河西" countyValue ="河西"/>
+    <County countyKey="河西区" countyValue ="河西"/>
+    <County countyKey="红桥" countyValue ="红桥"/>
+    <County countyKey="红桥区" countyValue ="红桥"/>
+    <County countyKey="蓟县区" countyValue ="蓟州"/>
+    <County countyKey="蓟州" countyValue ="蓟州"/>
+    <County countyKey="蓟县" countyValue ="蓟州"/>
+    <County countyKey="津南" countyValue ="津南"/>
+    <County countyKey="津南区" countyValue ="津南"/>
+    <County countyKey="静海" countyValue ="静海"/>
+    <County countyKey="静海区" countyValue ="静海"/>
+    <County countyKey="南开" countyValue ="南开"/>
+    <County countyKey="南开区" countyValue ="南开"/>
+    <County countyKey="宁河" countyValue ="宁河"/>
+    <County countyKey="宁河区" countyValue ="宁河"/>
+    <County countyKey="宁河县" countyValue ="宁河"/>
+    <County countyKey="塘沽" countyValue ="塘沽"/>
+    <County countyKey="塘沽区" countyValue ="塘沽"/>
+    <County countyKey="武清县" countyValue ="武清"/>
+    <County countyKey="武清" countyValue ="武清"/>
+    <County countyKey="武清区" countyValue ="武清"/>
+    <County countyKey="西青" countyValue ="西青"/>
+    <County countyKey="西青区" countyValue ="西青"/>
+</Map>

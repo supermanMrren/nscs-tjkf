@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.nscs.mapper.netstat.ICutoverMapper">
+	<resultMap type="com.boco.nscs.entity.netstat.CutoverInfo" id="CutoverMap">
+		<result property="engiId" column="id"/>
+		<result property="province" column="province"/>
+		<result property="city" column="city"/>
+		<result property="county" column="COUNTRY"/>
+		<result property="influence" column="VILLAGES"/>
+		<result property="affectBusiness" column="BUSINESSTYPE"/>
+		<result property="interpretCaliber" column="ADVISE"/>
+		<result property="status" column="Status"/>
+		<result property="startDate" column="STIME"/>
+		<result property="endDate" column="ETIME"/>
+		<result property="longitude" column="LONGITUDE"/>
+		<result property="latitude" column="LATITUDE"/>
+		<result property="nename" column="nename"/>
+	</resultMap>
+
+	<resultMap type="com.boco.nscs.entity.common.BsInfo" id="BsInfo">
+		<result property="id" column="bsid"/>
+		<result property="longitude" column="LONGITUDE"/>
+		<result property="latitude" column="LATITUDE"/>
+		<result property="county" column="COUNTY"/>
+	</resultMap>
+
+	<!--<select id="queryList"  parameterType="map"  resultMap="CutoverMap" >
+		  select a.id as id,b.LATITUDE as LATITUDE,a.nename,
+		  b.LONGITUDE as LONGITUDE,decode(a.PRO_NE_TYPE,'EutranCell','4G手机上网','ENodeB','4G手机上网','CELL','2G语音和2G手机上网','BSC','2G语音和2G手机上网','BTS','其他','其他') as BUSINESSTYPE,
+		  a.project_start_time as STIME,a.project_end_time as ETIME
+		  from tb_nc_project_status_tj  a
+		  left join tb_nc_bs b
+		  on b.bsid=(
+		  CASE when instr(a.nename,']')>0
+		  then substr(a.nename,instr(a.nename,'[')+1,(instr(a.nename,']')-instr(a.nename,'[')-1))
+		  when (instr(a.nename,'_')>0 and REGEXP_LIKE(substr(a.nename,instr(a.nename,'_')-1,1),'(^[+-]?\d{0,}\.?\d{0,}$)'))
+		  then substr(a.nename,instr(translate(a.nename,'0123456789','0000000000'),'0'),(instr(a.nename,'_')-instr(translate(a.nename,'0123456789','0000000000'),'0')))
+		  else REGEXP_SUBSTR(substr(a.nename,instr(a.nename,'_')+1),'[0-9]+') end)
+		  where (a.project_name like '%' || #{influence} || '%'
+		  or a.nename like '%' || #{influence} || '%')
+		  and to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss') >= a.project_start_time
+          and a.project_end_time >= to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss')
+		  <if test="county !=null and county !=''">
+			 and b.county = #{county}
+		  </if>
+      </select>-->
+
+	<select id="queryNenameList" parameterType="map" resultMap="CutoverMap">
+		select id,nename,
+		decode(PRO_NE_TYPE,'EutranCell','4G手机上网','ENodeB','4G手机上网','CELL','2G语音和2G手机上网','BSC','2G语音和2G手机上网','BTS','其他','其他') as BUSINESSTYPE,
+		project_start_time as STIME,project_end_time as ETIME
+		from tb_nc_project_status_tj
+		where (project_name like '%' || #{influence} || '%'
+		or nename like '%' || #{influence} || '%')
+		and to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss') >= project_start_time
+		and project_end_time >= to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss')
+	</select>
+
+	<select id="queryListByBsid"  parameterType="String"  resultMap="BsInfo" >
+		select bsid,longitude,latitude,county
+		from tb_nc_bs
+		where 1=1
+		<if test="bsid !=null and bsid !=''">
+			and ${bsid}
+		</if>
+	</select>
+</mapper>

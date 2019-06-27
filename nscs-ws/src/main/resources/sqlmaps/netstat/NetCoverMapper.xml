@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.nscs.mapper.netstat.INetCoverMapper">
+	<resultMap type="com.boco.nscs.entity.netstat.NetCoverInfo" id="NetCover">
+		<result property="poorCoverId" column="wid"/>
+		<result property="province" column="province"/>
+		<result property="city" column="city"/>
+		<result property="county" column="COUNTRY"/>
+		<result property="influence" column="coverInfo"/>
+		<result property="interpretCaliber" column="advise"/>
+		<result property="status" column="Status"/>
+		<result property="startDate" column="startDate"/>
+		<result property="expEndDate" column="planEndtime"/>
+		<result property="realEndDate" column="endtime"/>
+	</resultMap>
+
+	<select id="queryWeakcoverList"  parameterType="map"  resultMap="NetCover" >
+		select a.wid,a.coverInfo,a.advise,a.firstCompTime as startDate,
+		a.planEndtime,a.endtime
+		from tb_nc_weakcover_n a
+		where 1=1
+		<if test="county != null or county != ''">
+			and   (a.county like '%' || #{county}  || '%' or a.county is null or
+			(select C_CITYNAME from taw_nscs_common_city b where b.C_ID=a.county) like '%' || #{county} || '%')
+		</if>
+		<if test="influence != null or influence != ''">
+			and (a.name like '%' || #{influence} || '%'or a.keyword like '%' || #{influence} || '%'
+			or a.coverInfo like '%' || #{influence} || '%' )
+		</if>
+		and to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss') >= a.firstCompTime
+		and (a.endtime >= to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss')
+			  or a.endtime is null)
+		order by a.wid
+	</select>
+
+	<select id="queryWeakcoverHotList"  parameterType="map"  resultMap="NetCover" >
+		select a.wid,a.coverInfo,a.advise,a.firstCompTime as startDate,
+		a.planEndtime,a.endtime
+		from tb_nc_weakcover_hp_n a
+		where 1=1
+		<if test="county != null or county != ''">
+			and   (a.county like '%' || #{county}  || '%' or a.county is null or
+			(select C_CITYNAME from taw_nscs_common_city b where b.C_ID=a.county) like '%' || #{county} || '%')
+		</if>
+		<if test="influence != null or influence != ''">
+			and (a.name like '%' || #{influence} || '%'or a.keyword like '%' || #{influence} || '%'
+			or a.coverInfo like '%' || #{influence} || '%' )
+		</if>
+		and to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss') >= a.firstCompTime
+		and (a.endtime >= to_date(#{reportTime},'yyyy-mm-dd hh24:mi:ss')
+			or a.endtime is null)
+		order by a.wid
+	</select>
+</mapper>

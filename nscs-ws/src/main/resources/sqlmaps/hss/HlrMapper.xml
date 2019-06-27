@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.nscs.mapper.hss.IHlrMapper">
+
+	<select id="qryHlrSearch"  parameterType="String"  resultType="String" >
+		select id from tb_nc_searchhlr_log where CUSTOMER_NUM like '%${servNumber}%' and CALL_TIME>to_date(#{callTime},'yyyy-mm-dd hh24:mi:ss') and rownum=1 order by CALL_TIME desc
+	</select>
+
+	<insert id="insertHrlSearch" parameterType="com.boco.nscs.entity.hss.HlrSearch">
+		insert into tb_nc_searchhlr_log(
+		CALL_STAFFID,CALL_TIME,INCOM_NUM,CUSTOMER_NUM
+		)values(
+		#{staffId},to_date(#{callTime},'yyyy-mm-dd hh24:mi:ss'),#{incomNumber},#{servNumber}
+		)
+	</insert>
+
+</mapper>
